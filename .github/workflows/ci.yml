@@ -1,0 +1,21 @@
+name: Test
+
+on: push
+
+jobs:
+  clippy:
+    name: clippy check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sudo apt-get install -y musl-tools build-essential
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          target: x86_64-unknown-linux-musl
+          components: clippy
+      - uses: LoliGothick/clippy-check@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          target: x86_64-unknown-linux-musl
+          deny: warnings
